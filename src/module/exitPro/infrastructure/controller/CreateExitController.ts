@@ -10,7 +10,7 @@ import { SecurityErrors } from '../../application/errors/SecurityError';
 @injectable()
 export class CreateExitController extends BaseController {
   constructor(
-    @inject(TYPES.StudentService) 
+    @inject(TYPES.StudentService)
     private studentService: StudentService
   ) {
     super();
@@ -24,25 +24,28 @@ export class CreateExitController extends BaseController {
 
     try {
       let result = await this.studentService.createExit(dto);
-      
+
       if (result.isLeft()) {
         const error: any = result.value;
         switch (error.constructor) {
           case AppError.DatabaseError:
-            return BaseController.jsonResponse(response, 502, "database error while creating new exit");
+            return BaseController.jsonResponse(
+              response,
+              502,
+              'database error while creating new exit'
+            );
           case SecurityErrors.AlreadyOutsideError:
             result = {
               isSuccess: false
-            }
+            };
             return this.ok<any>(response, result);
           default:
             return this.fail(response, error, next);
         }
       } else {
-
         result = {
           isSuccess: true
-        }
+        };
         return this.ok<any>(response, result);
       }
     } catch (err) {

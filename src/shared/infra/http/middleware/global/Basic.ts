@@ -19,7 +19,8 @@ const basicMiddleware = (app: express.Application) => {
     cors({
       origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, ngrok-skip-browser-warning'
+      allowedHeaders:
+        'Origin, X-Requested-With, Content-Type, Accept, ngrok-skip-browser-warning'
     })
   );
   app.use(compression());

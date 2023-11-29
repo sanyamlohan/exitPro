@@ -25,24 +25,21 @@ export class StudentService {
   public async createStudent(studentDto: StudentDTO): Promise<studentResponse> {
     const studentEntity = StudentMap.fromDTOToDomain(studentDto); // Checking with domain is happening in the mapper directly
     /* This part can't work if we have base implementation in repo pattern else this map can be done in the repository */
-    const studentModelEntity = StudentMap.fromDomainToPersistence(studentEntity);
+    const studentModelEntity =
+      StudentMap.fromDomainToPersistence(studentEntity);
     const result = await this._studentRepository.create(studentModelEntity);
 
-    if(result.isLeft()){
-      return left(
-        new AppError.DatabaseError(result.value.error.value)
-      );
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
     }
     return right(Result.ok<StudentDTO>(result.value));
   }
 
-  public async getStudent(roll_number: Number): Promise<any> {
+  public async getStudent(roll_number: number): Promise<any> {
     const result = await this._studentRepository.get(roll_number);
 
-    if(result.isLeft()){
-      return left(
-        new AppError.DatabaseError(result.value.error.value)
-      );
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
     }
 
     const ans = StudentMap.fromPersistenceToDTO(result.value[0]);
@@ -52,10 +49,8 @@ export class StudentService {
   public async getLateStudents(): Promise<any> {
     const result = await this._entryExitRepository.getLateStudents();
 
-    if(result.isLeft()){
-      return left(
-        new AppError.DatabaseError(result.value.error.value)
-      );
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
     }
 
     interface MyObject {
@@ -67,7 +62,7 @@ export class StudentService {
     }
 
     const ans: MyObject[] = [];
-    for(let i=0; i<result.value.length; i++){
+    for (let i = 0; i < result.value.length; i++) {
       const temp = StudentMap.fromPersistenceToDTO(result.value[i]);
       temp.outTime = temp.outTime.slice(4, 24);
       ans.push(temp);
@@ -79,10 +74,12 @@ export class StudentService {
   public async createExit(inputDto: InputDTO): Promise<any> {
     const student = await this._studentRepository.get(inputDto.roll_number);
 
-    const alreadyOutside = await this._entryExitRepository.getEntry(inputDto.roll_number);
-    if(alreadyOutside.value[0] !== undefined){
+    const alreadyOutside = await this._entryExitRepository.getEntry(
+      inputDto.roll_number
+    );
+    if (alreadyOutside.value[0] !== undefined) {
       return left(
-        new SecurityErrors.AlreadyOutsideError(new Error("already outside"))
+        new SecurityErrors.AlreadyOutsideError(new Error('already outside'))
       );
     }
 
@@ -91,27 +88,26 @@ export class StudentService {
     const exitModelEntity = EntryExitMap.fromDomainToPersistence(exitEntity);
     const result = await this._entryExitRepository.create(exitModelEntity);
 
-    if(result.isLeft()){
-      return left(
-        new AppError.DatabaseError(result.value.error.value)
-      );
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
     }
     return right(Result.ok<EntryExitDTO>(result.value));
   }
 
-  public async createEntry(roll_number: Number): Promise<any> {
+  public async createEntry(roll_number: number): Promise<any> {
     const alreadyInside = await this._entryExitRepository.getEntry(roll_number);
-    if(alreadyInside.value[0] === undefined){
+    if (alreadyInside.value[0] === undefined) {
       return left(
-        new SecurityErrors.AlreadyInsideError(new Error("already inside"))
+        new SecurityErrors.AlreadyInsideError(new Error('already inside'))
       );
     }
 
-    const result = await this._entryExitRepository.updateStudent(roll_number, String(new Date()));
-    if(result.isLeft()){
-      return left(
-        new AppError.DatabaseError(result.value.error.value)
-      );
+    const result = await this._entryExitRepository.updateStudent(
+      roll_number,
+      String(new Date())
+    );
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
     }
     return right(Result.ok<EntryExitDTO>(result));
   }

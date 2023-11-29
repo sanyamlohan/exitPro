@@ -4,9 +4,14 @@ import {
   controller,
   httpGet,
   httpPost,
-  httpPut,
+  httpPut
 } from 'inversify-express-utils';
-import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath } from 'swagger-express-ts';
+import {
+  ApiOperationGet,
+  ApiOperationPost,
+  ApiOperationPut,
+  ApiPath
+} from 'swagger-express-ts';
 import TYPES from '@ioc/constant/Types';
 import DtoRouteValidationMiddleware from '@shared-infra/http/middleware/DtoRouteValidationMiddleware';
 import { StudentDTO } from '../../application/dtos/StudentDto';
@@ -16,7 +21,6 @@ import { GetStudentController } from '../controller/GetStudentController';
 import { InputDTO } from '../../application/dtos/ExitDto';
 import { CreateEntryController } from '../controller/CreateEntryController';
 import { GetLateStudentsController } from '../controller/GetLateStudentsController';
-
 
 @ApiPath({
   name: 'student',
@@ -61,7 +65,11 @@ export abstract class studentRouters {
     description: 'enter details',
     summary: 'enter details ',
     parameters: {
-      body: { description: 'enter the data', required: true, model: 'EntryExit' }
+      body: {
+        description: 'enter the data',
+        required: true,
+        model: 'EntryExit'
+      }
     },
     responses: {
       200: { description: 'Success' },
@@ -81,7 +89,11 @@ export abstract class studentRouters {
     description: 'enter details',
     summary: 'enter details ',
     parameters: {
-      body: { description: 'enter the data', required: true, model: 'EntryExit' }
+      body: {
+        description: 'enter the data',
+        required: true,
+        model: 'EntryExit'
+      }
     },
     responses: {
       200: { description: 'Success' },

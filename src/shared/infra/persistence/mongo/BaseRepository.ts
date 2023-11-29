@@ -33,29 +33,33 @@ export abstract class BaseRepository<IModelEntity>
     return Promise.resolve(result);
   }
 
-  async updateStudent(_id: Number,data: any): Promise<any> {
-    try{
-      const result = await this.model.findOneAndUpdate({ roll_number: _id, inTime: null }, {inTime: data}, {
-        new: true
-      });
+  async updateStudent(_id: number, data: any): Promise<any> {
+    try {
+      const result = await this.model.findOneAndUpdate(
+        { roll_number: _id, inTime: null },
+        { inTime: data },
+        {
+          new: true
+        }
+      );
       return right(result);
     } catch (err: unknown) {
       return left(new AppError.DatabaseError(err));
     }
   }
 
-  async get(id: Number): Promise<any> {
-    try{
-      const result = await this.model.find({roll_number: id});
+  async get(id: number): Promise<any> {
+    try {
+      const result = await this.model.find({ roll_number: id });
       return right(result);
     } catch (err: unknown) {
       return left(new AppError.DatabaseError(err));
     }
   }
 
-  async getEntry(id: Number): Promise<any> {
-    try{
-      const result = await this.model.find({roll_number: id, inTime: null});
+  async getEntry(id: number): Promise<any> {
+    try {
+      const result = await this.model.find({ roll_number: id, inTime: null });
       return right(result);
     } catch (err: unknown) {
       return left(new AppError.DatabaseError(err));
@@ -63,17 +67,17 @@ export abstract class BaseRepository<IModelEntity>
   }
 
   async getLateStudents(): Promise<any> {
-    try{
-      const result = await this.model.find({inTime: null});
+    try {
+      const result = await this.model.find({ inTime: null });
       return right(result);
     } catch (err: unknown) {
       return left(new AppError.DatabaseError(err));
     }
   }
 
-  async getSecurityGuard(id: String): Promise<any> {
-    try{
-      const result = await this.model.find({guardId: id});
+  async getSecurityGuard(id: string): Promise<any> {
+    try {
+      const result = await this.model.find({ guardId: id });
       return right(result);
     } catch (err: unknown) {
       return left(new AppError.DatabaseError(err));

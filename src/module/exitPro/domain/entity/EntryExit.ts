@@ -46,7 +46,7 @@ export class EntryExit {
   }
 
   get getOutTime(): string | undefined {
-    return this.outTime
+    return this.outTime;
   }
 
   get getInTime(): string | undefined {

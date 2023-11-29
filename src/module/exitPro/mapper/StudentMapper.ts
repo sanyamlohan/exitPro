@@ -31,6 +31,6 @@ export class StudentMap {
       roll_number: student.roll_number,
       goingTo: student.goingTo,
       outTime: student.outTime
-    }
+    };
   }
 }

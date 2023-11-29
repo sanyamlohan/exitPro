@@ -8,7 +8,7 @@ import { StudentService } from '../../application/service/StudentService';
 @injectable()
 export class GetLateStudentsController extends BaseController {
   constructor(
-    @inject(TYPES.StudentService) 
+    @inject(TYPES.StudentService)
     private studentService: StudentService
   ) {
     super();
@@ -18,16 +18,20 @@ export class GetLateStudentsController extends BaseController {
     response: Response,
     next: NextFunction
   ): Promise<any> {
-    const id: Number = Number(request.params.id);
+    const id = Number(request.params.id);
 
     try {
       const result = await this.studentService.getLateStudents();
-      
+
       if (result.isLeft()) {
         const error: any = result.value;
         switch (error.constructor) {
           case AppError.DatabaseError:
-            return BaseController.jsonResponse(response, 502, "database error while finding the student");
+            return BaseController.jsonResponse(
+              response,
+              502,
+              'database error while finding the student'
+            );
           default:
             return this.fail(response, error, next);
         }

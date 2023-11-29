@@ -10,9 +10,7 @@ export class SecurityRepository
   extends BaseRepository<ISecurityModel>
   implements ISecurityRepository
 {
-
   constructor() {
     super('security', securitySchema);
   }
-
 }

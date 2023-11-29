@@ -9,7 +9,7 @@ import { StudentService } from '../../application/service/StudentService';
 @injectable()
 export class CreateStudentController extends BaseController {
   constructor(
-    @inject(TYPES.StudentService) 
+    @inject(TYPES.StudentService)
     private studentService: StudentService
   ) {
     super();
@@ -23,12 +23,16 @@ export class CreateStudentController extends BaseController {
 
     try {
       const result = await this.studentService.createStudent(dto);
-      
+
       if (result.isLeft()) {
         const error: any = result.value;
         switch (error.constructor) {
           case AppError.DatabaseError:
-            return BaseController.jsonResponse(response, 502, "database error while creating new student");
+            return BaseController.jsonResponse(
+              response,
+              502,
+              'database error while creating new student'
+            );
           default:
             return this.fail(response, error, next);
         }

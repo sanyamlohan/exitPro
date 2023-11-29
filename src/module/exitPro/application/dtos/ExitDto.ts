@@ -1,4 +1,4 @@
-import {IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 
 @ApiModel({

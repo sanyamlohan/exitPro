@@ -1,5 +1,5 @@
 export interface ISecurity {
-    guardId: string;
-    guardName: string;
-    guardContact: string;
+  guardId: string;
+  guardName: string;
+  guardContact: string;
 }

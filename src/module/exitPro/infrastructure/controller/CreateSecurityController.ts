@@ -9,7 +9,7 @@ import { SecurityDTO } from '../../application/dtos/SecurityDto';
 @injectable()
 export class CreateSecurityController extends BaseController {
   constructor(
-    @inject(TYPES.SecurityService) 
+    @inject(TYPES.SecurityService)
     private securityService: SecurityService
   ) {
     super();
@@ -22,13 +22,17 @@ export class CreateSecurityController extends BaseController {
     const dto: SecurityDTO = { ...request.body };
 
     try {
-      let result = await this.securityService.createSecurity(dto);
-      
+      const result = await this.securityService.createSecurity(dto);
+
       if (result.isLeft()) {
         const error: any = result.value;
         switch (error.constructor) {
           case AppError.DatabaseError:
-            return BaseController.jsonResponse(response, 502, "database error while creating new security");
+            return BaseController.jsonResponse(
+              response,
+              502,
+              'database error while creating new security'
+            );
           default:
             return this.fail(response, error, next);
         }

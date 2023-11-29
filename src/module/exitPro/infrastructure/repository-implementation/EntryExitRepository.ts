@@ -10,9 +10,7 @@ export class EntryExitRepository
   extends BaseRepository<IEntryExitModel>
   implements IEntryExitRepository
 {
-
   constructor() {
     super('entry_exit', entryExitSchema);
   }
-
 }

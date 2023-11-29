@@ -10,7 +10,7 @@ const TYPES = {
   CreateExitController: Symbol.for('CreateExitController'),
   GetStudentController: Symbol.for('GetStudentController'),
   GetLateStudentsController: Symbol.for('GetLateStudentsController'),
-  LoginController: Symbol.for('LoginController'),
+  LoginController: Symbol.for('LoginController')
 };
 
 export default TYPES;

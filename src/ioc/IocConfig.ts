@@ -28,9 +28,15 @@ const InversifyConfigContainer = async () => {
   try {
     container.bind<StudentService>(TYPES.StudentService).to(StudentService);
     container.bind<SecurityService>(TYPES.SecurityService).to(SecurityService);
-    container.bind<IStudentRepository>(TYPES.IStudentRepository).to(StudentRepository);
-    container.bind<IEntryExitRepository>(TYPES.IEntryExitRepository).to(EntryExitRepository);
-    container.bind<ISecurityRepository>(TYPES.ISecurityRepository).to(SecurityRepository);
+    container
+      .bind<IStudentRepository>(TYPES.IStudentRepository)
+      .to(StudentRepository);
+    container
+      .bind<IEntryExitRepository>(TYPES.IEntryExitRepository)
+      .to(EntryExitRepository);
+    container
+      .bind<ISecurityRepository>(TYPES.ISecurityRepository)
+      .to(SecurityRepository);
 
     container
       .bind<CreateStudentController>(TYPES.CreateStudentController)

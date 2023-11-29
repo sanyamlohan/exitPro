@@ -13,9 +13,9 @@ export class SecurityMap {
 
   public static fromDomainToPersistence(security: Security): ISecurityModel {
     return {
-        guardId: security.getGuardId,
-        guardName: security.getGuardName,
-        guardContact: security.getGuardContact
+      guardId: security.getGuardId,
+      guardName: security.getGuardName,
+      guardContact: security.getGuardContact
     };
   }
 }

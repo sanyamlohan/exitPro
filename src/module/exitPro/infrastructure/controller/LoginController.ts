@@ -9,7 +9,7 @@ import { LoginDTO } from '../../application/dtos/LoginDto';
 @injectable()
 export class LoginController extends BaseController {
   constructor(
-    @inject(TYPES.SecurityService) 
+    @inject(TYPES.SecurityService)
     private securityService: SecurityService
   ) {
     super();
@@ -27,21 +27,25 @@ export class LoginController extends BaseController {
         const error: any = result.value;
         switch (error.constructor) {
           case AppError.DatabaseError:
-            return BaseController.jsonResponse(response, 502, "database error while login into the system");
+            return BaseController.jsonResponse(
+              response,
+              502,
+              'database error while login into the system'
+            );
           default:
             return this.fail(response, error, next);
         }
       } else {
-        if(result.value.data == undefined){
+        if (result.value.data == undefined) {
           result = {
             isSuccess: false
-          }
-        }else{
+          };
+        } else {
           result = {
             isSuccess: true
-          }
+          };
         }
-        
+
         return this.ok<any>(response, result);
       }
     } catch (err) {
