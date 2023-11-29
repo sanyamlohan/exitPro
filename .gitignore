@@ -1,0 +1,12 @@
+node_modules/
+build
+
+.env
+
+log/
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> 25_testing_jest
+coverage/
