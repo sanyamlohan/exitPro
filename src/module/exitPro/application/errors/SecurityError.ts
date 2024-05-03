@@ -12,4 +12,10 @@ export namespace SecurityErrors {
       super(err as Error, `Already Inside`, true);
     }
   }
+
+  export class UnAuthorizeUser extends BaseError {
+    constructor(err: Error) {
+      super(err as Error, 'Otp did not match', true);
+    }
+  }
 }

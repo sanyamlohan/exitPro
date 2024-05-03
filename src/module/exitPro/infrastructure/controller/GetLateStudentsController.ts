@@ -18,8 +18,6 @@ export class GetLateStudentsController extends BaseController {
     response: Response,
     next: NextFunction
   ): Promise<any> {
-    const id = Number(request.params.id);
-
     try {
       const result = await this.studentService.getLateStudents();
 

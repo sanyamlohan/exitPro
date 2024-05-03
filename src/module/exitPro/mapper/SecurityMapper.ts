@@ -7,7 +7,8 @@ export class SecurityMap {
     return Security.create({
       guardId: security.guardId,
       guardName: security.guardName,
-      guardContact: security.guardContact
+      guardContact: security.guardContact,
+      otp: ''
     });
   }
 
@@ -15,7 +16,8 @@ export class SecurityMap {
     return {
       guardId: security.getGuardId,
       guardName: security.getGuardName,
-      guardContact: security.getGuardContact
+      guardContact: security.getGuardContact,
+      otp: ''
     };
   }
 }

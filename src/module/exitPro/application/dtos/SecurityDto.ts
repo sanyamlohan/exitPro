@@ -26,4 +26,11 @@ export class SecurityDTO {
   })
   @IsString()
   guardContact!: string;
+
+  @ApiModelProperty({
+    description: 'otp',
+    required: true
+  })
+  @IsString()
+  otp?: string;
 }
