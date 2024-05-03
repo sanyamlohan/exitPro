@@ -13,8 +13,8 @@
     "lint-and-fix": "eslint . --ext .ts --fix",
     "prettier-format": "prettier --config .prettierrc src/**/*.ts --write",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "test": "jest --coverage",
-    "test:dev": "jest --watchAll --detectOpenHandles"
+    "test": "jest --coverage --passWithNoTests",
+    "test:dev": "jest --watchAll --detectOpenHandles --passWithNoTests"
   },
   "husky": {
     "hooks": {
