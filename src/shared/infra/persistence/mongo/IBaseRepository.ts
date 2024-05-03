@@ -5,4 +5,5 @@ export interface IBaseRepository<IModelEntity> {
   getEntry(id: number): Promise<any>;
   create(entity: IModelEntity): Promise<any>;
   updateStudent(_id: number, data: any): Promise<any>;
+  updateSecurity(_id: string, data: any): Promise<any>;
 }

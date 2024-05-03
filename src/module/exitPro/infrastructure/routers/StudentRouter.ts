@@ -21,6 +21,7 @@ import { GetStudentController } from '../controller/GetStudentController';
 import { InputDTO } from '../../application/dtos/ExitDto';
 import { CreateEntryController } from '../controller/CreateEntryController';
 import { GetLateStudentsController } from '../controller/GetLateStudentsController';
+import { SendWarningStudentsController } from '../controller/SendWarningStudentsController';
 
 @ApiPath({
   name: 'student',
@@ -38,7 +39,9 @@ export abstract class studentRouters {
     @inject(TYPES.GetStudentController)
     private readonly _getStudentController: GetStudentController,
     @inject(TYPES.GetLateStudentsController)
-    private readonly _getLateStudentsController: GetLateStudentsController
+    private readonly _getLateStudentsController: GetLateStudentsController,
+    @inject(TYPES.SendWarningStudentsController)
+    private readonly _sendWarningStudentsController: SendWarningStudentsController
   ) {}
 
   @ApiOperationPost({
@@ -124,6 +127,15 @@ export abstract class studentRouters {
     next: NextFunction
   ) {
     return this._getLateStudentsController.execute(request, response, next);
+  }
+
+  @httpGet('/sendWarning')
+  public async sendWarning(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    return this._sendWarningStudentsController.execute(request, response, next);
   }
 
   @ApiOperationGet({

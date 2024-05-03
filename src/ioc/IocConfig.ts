@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import '../module/exitPro/application/service/ScheduleAPI';
 
 import '../module/exitPro/infrastructure/routers/StudentRouter';
 import '../module/exitPro/infrastructure/routers/SecurityRouter';
@@ -18,9 +19,11 @@ import { GetStudentController } from '../module/exitPro/infrastructure/controlle
 import { GetLateStudentsController } from '../module/exitPro/infrastructure/controller/GetLateStudentsController';
 import { LoginController } from '../module/exitPro/infrastructure/controller/LoginController';
 import { CreateSecurityController } from '../module/exitPro/infrastructure/controller/CreateSecurityController';
+import { SendWarningStudentsController } from '../module/exitPro/infrastructure/controller/SendWarningStudentsController';
 
 import TYPES from './constant/Types';
 import { errorHandler } from '@core/error/ErrorHandler';
+import { GetOtpMatchResultController } from '../module/exitPro/infrastructure/controller/GetOtpMatchResultController';
 
 const InversifyConfigContainer = async () => {
   const container = new Container();
@@ -61,6 +64,14 @@ const InversifyConfigContainer = async () => {
     container
       .bind<GetLateStudentsController>(TYPES.GetLateStudentsController)
       .to(GetLateStudentsController)
+      .inSingletonScope();
+    container
+      .bind<GetOtpMatchResultController>(TYPES.GetOtpMatchResultController)
+      .to(GetOtpMatchResultController)
+      .inSingletonScope();
+    container
+      .bind<SendWarningStudentsController>(TYPES.SendWarningStudentsController)
+      .to(SendWarningStudentsController)
       .inSingletonScope();
     container
       .bind<LoginController>(TYPES.LoginController)

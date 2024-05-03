@@ -6,6 +6,8 @@ import { LoginDTO } from '../dtos/LoginDto';
 import { ISecurityRepository } from '../../domain/repository/ISecurityRepository';
 import { SecurityDTO } from '../dtos/SecurityDto';
 import { SecurityMap } from '../../mapper/SecurityMapper';
+import { sendSMS } from '../../utils/msgUtils';
+import { SecurityErrors } from '../errors/SecurityError';
 
 @injectable()
 export class SecurityService {
@@ -33,10 +35,33 @@ export class SecurityService {
       guardId = 'G' + guardId.slice(1);
     }
 
-    const result = await this._securityRepository.getSecurityGuard(guardId);
+    let result = await this._securityRepository.getSecurityGuard(guardId);
     if (result.isLeft()) {
       return left(new AppError.DatabaseError(result.value.error.value));
     }
-    return right(Result.ok<any>(result.value[0]));
+
+    const contact = result.value[0].guardContact;
+    let otp = await sendSMS(contact);
+
+    otp = otp.value;
+
+    result = await this._securityRepository.updateSecurity(contact, otp);
+
+    return right(Result.ok<any>(result.value));
+  }
+
+  public async getOtpMatchResult(dto: any): Promise<any> {
+    const otp = dto.otp;
+    const id = dto.guardId;
+
+    const result = await this._securityRepository.getSecurityGuard(id);
+
+    if (otp === result.value[0].otp) {
+      return right(Result.ok<any>(result.value));
+    }
+
+    return left(
+      new SecurityErrors.UnAuthorizeUser(new Error('unauthorized person'))
+    );
   }
 }

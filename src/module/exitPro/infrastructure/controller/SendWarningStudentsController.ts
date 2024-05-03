@@ -3,14 +3,13 @@ import { inject, injectable } from 'inversify';
 import TYPES from '@ioc/constant/Types';
 import { BaseController } from '@shared-infra/http/controller/BaseController';
 import { AppError } from '@core/error/AppError';
-import { SecurityService } from '../../application/service/SecurityService';
-import { LoginDTO } from '../../application/dtos/LoginDto';
+import { StudentService } from '../../application/service/StudentService';
 
 @injectable()
-export class LoginController extends BaseController {
+export class SendWarningStudentsController extends BaseController {
   constructor(
-    @inject(TYPES.SecurityService)
-    private securityService: SecurityService
+    @inject(TYPES.StudentService)
+    private studentService: StudentService
   ) {
     super();
   }
@@ -19,10 +18,9 @@ export class LoginController extends BaseController {
     response: Response,
     next: NextFunction
   ): Promise<any> {
-    const dto: LoginDTO = { ...request.body };
-
     try {
-      let result = await this.securityService.loginSecurity(dto);
+      const result = await this.studentService.sendWarningToLateComers();
+
       if (result.isLeft()) {
         const error: any = result.value;
         switch (error.constructor) {
@@ -30,23 +28,14 @@ export class LoginController extends BaseController {
             return BaseController.jsonResponse(
               response,
               502,
-              'database error while login into the system'
+              'database error while finding the student'
             );
           default:
             return this.fail(response, error, next);
         }
       } else {
-        if (result.value.data.otp == undefined) {
-          result = {
-            isSuccess: false
-          };
-        } else {
-          result = {
-            isSuccess: true
-          };
-        }
-
-        return this.ok<any>(response, result);
+        const ans: any = result.value.data;
+        return this.ok<any>(response, ans);
       }
     } catch (err) {
       return this.fail(response, new AppError.UnexpectedError(err), next);

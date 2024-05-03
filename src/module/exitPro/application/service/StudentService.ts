@@ -10,6 +10,7 @@ import { EntryExitMap } from '../../mapper/EntryExitMapper';
 import { IEntryExitRepository } from '../../domain/repository/IEntryExitRepository';
 import { InputDTO } from '../dtos/ExitDto';
 import { SecurityErrors } from '../errors/SecurityError';
+import { sendWarning } from '../../utils/msgUtils';
 
 type studentResponse = Either<AppError.UnexpectedError, Result<StudentDTO>>;
 
@@ -69,6 +70,23 @@ export class StudentService {
     }
 
     return right(Result.ok<any>(ans));
+  }
+
+  public async sendWarningToLateComers(): Promise<any> {
+    const result = await this._entryExitRepository.getLateStudents();
+
+    if (result.isLeft()) {
+      return left(new AppError.DatabaseError(result.value.error.value));
+    }
+
+    for (let i = 0; i < result.value.length; i++) {
+      const contact = result.value[i].contact;
+      const name = result.value[i].name;
+
+      await sendWarning(contact, name);
+    }
+
+    return right(Result.ok<any>());
   }
 
   public async createExit(inputDto: InputDTO): Promise<any> {

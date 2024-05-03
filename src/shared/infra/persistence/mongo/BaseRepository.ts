@@ -48,6 +48,21 @@ export abstract class BaseRepository<IModelEntity>
     }
   }
 
+  async updateSecurity(_id: string, data: string): Promise<any> {
+    try {
+      const result = await this.model.findOneAndUpdate(
+        { guardContact: _id },
+        { otp: data },
+        {
+          new: true
+        }
+      );
+      return right(result);
+    } catch (err: unknown) {
+      return left(new AppError.DatabaseError(err));
+    }
+  }
+
   async get(id: number): Promise<any> {
     try {
       const result = await this.model.find({ roll_number: id });
