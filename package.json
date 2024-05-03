@@ -7,7 +7,7 @@
   "scripts": {
     "start:dev": "NODE_ENV=development&&nodemon",
     "start:dev-win": "SET NODE_ENV=development&&nodemon",
-    "build": "rimraf ./build && tsc",
+    "build": "tsc",
     "start": "npm run build && node build/index.js",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
